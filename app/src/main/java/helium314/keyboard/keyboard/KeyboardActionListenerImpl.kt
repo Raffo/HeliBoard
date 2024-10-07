@@ -99,11 +99,12 @@ class KeyboardActionListenerImpl(private val latinIME: LatinIME, private val inp
                 actualSteps >= steps
             }
         } else {
-            val text = inputLogic.mConnection.getTextBeforeCursor(-steps * 4, 0)
+            val mWordBeingCorrectedByCursor = inputLogic.getWordAtCursor(settings.current, keyboardSwitcher.currentKeyboardScript)
+            val text = inputLogic.mConnection.getTextBeforeCursor((mWordBeingCorrectedByCursor.length), 0)
             if (text == null) actualSteps = steps
             else loopOverCodePointsBackwards(text) {
                 actualSteps -= Character.charCount(it)
-                actualSteps <= steps
+                if (steps == -1) actualSteps == -text.length else actualSteps <= steps
             }
         }
         val start = inputLogic.mConnection.expectedSelectionStart + actualSteps

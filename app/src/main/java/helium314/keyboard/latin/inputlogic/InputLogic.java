@@ -1332,9 +1332,9 @@ public final class InputLogic {
         }
     }
 
-    String getWordAtCursor(final SettingsValues settingsValues, final String currentKeyboardScript) {
+    public String getWordAtCursor(final SettingsValues settingsValues, final String currentKeyboardScript) {
         if (!mConnection.hasSelection()
-                && settingsValues.isSuggestionsEnabledPerUserSettings()
+//                && settingsValues.isSuggestionsEnabledPerUserSettings()
                 && settingsValues.mSpacingAndPunctuations.mCurrentLanguageHasSpaces) {
             final TextRange range = mConnection.getWordRangeAtCursor(settingsValues.mSpacingAndPunctuations, currentKeyboardScript);
             if (range != null) {

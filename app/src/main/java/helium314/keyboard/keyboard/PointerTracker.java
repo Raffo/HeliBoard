@@ -171,6 +171,8 @@ public final class PointerTracker implements PointerTrackerQueue.Element,
     private final BatchInputArbiter mBatchInputArbiter;
     private final GestureStrokeDrawingPoints mGestureStrokeDrawingPoints;
 
+    private boolean wordSwipe;
+
     // TODO: Add PointerTrackerFactory singleton and move some class static methods into it.
     public static void init(final TypedArray mainKeyboardViewAttr, final TimerProxy timerProxy,
             final DrawingProxy drawingProxy) {
@@ -958,6 +960,13 @@ public final class PointerTracker implements PointerTrackerQueue.Element,
         } else if (code == KeyCode.DELETE) {
             // Delete slider
             int steps = (x - mStartX) / sPointerStep;
+            if (!wordSwipe) {
+                sListener.onMoveDeletePointer(-1);
+                wordSwipe = true;
+                return;
+            }
+            wordSwipe = false;
+
             if (steps != 0) {
                 if (!mInHorizontalSwipe) {
                     sTimerProxy.cancelKeyTimersOf(this);
